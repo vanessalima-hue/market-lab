@@ -1,0 +1,48 @@
+# market-lab/render.yaml
+services:
+  - type: web
+    name: market-lab-gateway
+    env: docker
+    rootDir: api-gateway
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: EUREKA_SERVER_URL
+        fromService:
+          type: pserv
+          name: market-lab-eureka
+          property: hostport # Render expõe host:port interno
+  - type: pserv
+    name: market-lab-eureka
+    env: docker
+    rootDir: eureka-server
+    plan: free
+    autoDeploy: true
+  - type: pserv
+    name: market-lab-product
+    env: docker
+    rootDir: product-service
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: EUREKA_SERVER_URL
+        fromService:
+          type: pserv
+          name: market-lab-eureka
+          property: hostport
+      - key: CACHE_TYPE=simple
+        value: redis
+      - key: REDIS_URL    # opcional: cole aqui o redis://user:pass@host:port da Redis Cloud
+        sync: false
+  - type: pserv
+    name: market-lab-order
+    env: docker
+    rootDir: order-service
+    plan: free
+    autoDeploy: true
+    envVars:
+      - key: EUREKA_SERVER_URL
+        fromService:
+          type: pserv
+          name: market-lab-eureka
+          property: hostport
