@@ -12,12 +12,14 @@ services:
           type: pserv
           name: market-lab-eureka
           property: hostport # Render expõe host:port interno
+
   - type: pserv
     name: market-lab-eureka
     env: docker
     rootDir: eureka-server
     plan: free
     autoDeploy: true
+
   - type: pserv
     name: market-lab-product
     env: docker
@@ -30,10 +32,9 @@ services:
           type: pserv
           name: market-lab-eureka
           property: hostport
-      - key: CACHE_TYPE=simple
-        value: redis
-      - key: REDIS_URL    # opcional: cole aqui o redis://user:pass@host:port da Redis Cloud
-        sync: false
+      - key: CACHE_TYPE
+        value: simple   # ✅ Agora o cache é em memória (sem Redis)
+
   - type: pserv
     name: market-lab-order
     env: docker
