@@ -1,6 +1,13 @@
 # market-lab/render.yaml
 services:
   - type: web
+    name: market-lab-eureka
+    env: docker
+    rootDir: eureka-server
+    plan: free
+    autoDeploy: true
+
+  - type: web
     name: market-lab-gateway
     env: docker
     rootDir: api-gateway
@@ -8,19 +15,9 @@ services:
     autoDeploy: true
     envVars:
       - key: EUREKA_SERVER_URL
-        fromService:
-          type: pserv
-          name: market-lab-eureka
-          property: hostport # Render expõe host:port interno
+        value: https://market-lab-eureka.onrender.com/eureka # 🔑 Atualizar depois do deploy do Eureka
 
-  - type: pserv
-    name: market-lab-eureka
-    env: docker
-    rootDir: eureka-server
-    plan: free
-    autoDeploy: true
-
-  - type: pserv
+  - type: web
     name: market-lab-product
     env: docker
     rootDir: product-service
@@ -28,14 +25,11 @@ services:
     autoDeploy: true
     envVars:
       - key: EUREKA_SERVER_URL
-        fromService:
-          type: pserv
-          name: market-lab-eureka
-          property: hostport
+        value: https://market-lab-eureka.onrender.com/eureka # 🔑 Atualizar depois do deploy do Eureka
       - key: CACHE_TYPE
-        value: simple   # ✅ Agora o cache é em memória (sem Redis)
+        value: simple
 
-  - type: pserv
+  - type: web
     name: market-lab-order
     env: docker
     rootDir: order-service
@@ -43,7 +37,4 @@ services:
     autoDeploy: true
     envVars:
       - key: EUREKA_SERVER_URL
-        fromService:
-          type: pserv
-          name: market-lab-eureka
-          property: hostport
+        value: https://market-lab-eureka.onrender.com/eureka # 🔑 Atualizar depois do deploy do Eureka
