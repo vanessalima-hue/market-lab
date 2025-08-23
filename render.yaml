@@ -6,9 +6,6 @@ services:
     rootDir: eureka-server
     plan: free
     autoDeploy: true
-    envVars:
-      - key: PORT
-        value: 8761
 
   - type: web
     name: market-lab-gateway
@@ -17,10 +14,8 @@ services:
     plan: free
     autoDeploy: true
     envVars:
-      - key: PORT
-        value: 8080
       - key: EUREKA_SERVER_URL
-        value: https://market-lab-eureka.onrender.com/eureka # 🔑 Atualizar depois do deploy do Eureka
+        value: https://market-lab-eureka.onrender.com/eureka
 
   - type: web
     name: market-lab-product
@@ -29,8 +24,6 @@ services:
     plan: free
     autoDeploy: true
     envVars:
-      - key: PORT
-        value: 8081
       - key: EUREKA_SERVER_URL
         value: https://market-lab-eureka.onrender.com/eureka
       - key: CACHE_TYPE
@@ -43,7 +36,5 @@ services:
     plan: free
     autoDeploy: true
     envVars:
-      - key: PORT
-        value: 8082
       - key: EUREKA_SERVER_URL
         value: https://market-lab-eureka.onrender.com/eureka
