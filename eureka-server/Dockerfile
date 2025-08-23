@@ -1,19 +1,12 @@
 # Etapa 1: Build
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
-
-# Copia apenas o pom.xml pai
-COPY pom.xml .
-
-# Copia só o módulo eureka-server
-COPY eureka-server ./eureka-server
-
-# Faz o build só do eureka-server
-RUN mvn -pl eureka-server -am clean package -DskipTests
+COPY . .
+RUN mvn clean package -DskipTests
 
 # Etapa 2: Runtime
 FROM eclipse-temurin:17-jdk
 WORKDIR /app
-COPY --from=build /app/eureka-server/target/*.jar app.jar
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8761
 ENTRYPOINT ["java","-jar","app.jar"]
