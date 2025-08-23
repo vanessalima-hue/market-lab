@@ -1,12 +1,10 @@
-# api-gateway/Dockerfile
-FROM maven:3.9-eclipse-temurin-17 AS build
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
-COPY ../pom.xml ./../pom.xml
-COPY pom.xml ./pom.xml
-RUN mvn -q -f ../pom.xml -DskipTests clean package -pl api-gateway -am
+COPY . .
+RUN mvn -pl api-gateway -am clean package -DskipTests
 
-FROM eclipse-temurin:17-jre
+FROM eclipse-temurin:17-jdk
 WORKDIR /app
-COPY --from=build /app/target/api-gateway-*.jar app.jar
+COPY --from=build /app/api-gateway/target/*.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app/app.jar"]
+ENTRYPOINT ["java","-jar","app.jar"]
