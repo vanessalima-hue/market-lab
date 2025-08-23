@@ -1,7 +1,15 @@
 # Etapa 1: Build
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
-COPY . .
+
+# Copia POM pai e módulos (preserva hierarquia)
+COPY pom.xml .
+COPY eureka-server ./eureka-server
+COPY api-gateway ./api-gateway
+COPY product-service ./product-service
+COPY order-service ./order-service
+
+# Executa build só do eureka, mas enxergando o POM pai
 RUN mvn -pl eureka-server -am clean package -DskipTests
 
 # Etapa 2: Runtime
