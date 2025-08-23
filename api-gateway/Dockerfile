@@ -2,11 +2,8 @@
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 
-COPY pom.xml .
-COPY eureka-server ./eureka-server
-COPY api-gateway ./api-gateway
-COPY product-service ./product-service
-COPY order-service ./order-service
+COPY ../pom.xml ./pom.xml
+COPY . ./api-gateway
 
 RUN mvn -pl api-gateway -am clean package -DskipTests
 
