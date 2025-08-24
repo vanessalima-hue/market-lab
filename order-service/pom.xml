@@ -47,19 +47,11 @@
       <scope>runtime</scope>
     </dependency>
 
-    <!-- ✅ Necessário para @Valid (jakarta.validation) -->
+    <!-- ✅ Validação (necessário para @Valid) -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-validation</artifactId>
     </dependency>
-
-    <!-- (Opcional) Actuator, se quiser métricas e health checks -->
-    <!--
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-actuator</artifactId>
-    </dependency>
-    -->
 
     <!-- Testes -->
     <dependency>
