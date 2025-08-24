@@ -1,32 +1,29 @@
-# Estágio de build
-# Usa uma versão mais recente e segura do Maven e OpenJDK
-FROM maven:3.9-eclipse-temurin-17 AS build
+# Estágio 1: Build da aplicação
+# Usa uma imagem base oficial do Maven com o Java 17
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 
 # Define o diretório de trabalho no contêiner
 WORKDIR /app
 
-# Copia o pom.xml pai e o pom.xml do módulo
-COPY ../pom.xml .
-COPY pom.xml ./product-service/pom.xml
+# Copia o projeto inteiro para o ambiente de build
+# Isso garante que o Maven consiga encontrar o POM pai
+COPY . .
 
-# Copia todo o código-fonte do módulo
-COPY ./src ./src
+# Compila apenas o módulo `product-service` e suas dependências.
+# Os flags `-pl` e `-am` são essenciais para projetos multi-módulos.
+RUN mvn -pl product-service -am clean package -DskipTests
 
-# Compila e empacota apenas este módulo
-RUN mvn clean package -DskipTests
-
-# Estágio de execução
-# Usa uma imagem base mais leve para a execução
-FROM eclipse-temurin:17-jre
+# Estágio 2: Execução da aplicação
+# Usa uma imagem base mais leve do Java 17 para o ambiente de execução
+FROM eclipse-temurin:17-jre-focal
 
 # Define o diretório de trabalho da aplicação
 WORKDIR /app
 
-# Copia o JAR do estágio de build para o estágio de execução
-COPY --from=build /app/target/product-service-*.jar ./app.jar
+# Copia o JAR do estágio de build
+COPY --from=build /app/product-service/target/product-service-*.jar ./app.jar
 
 # Expõe a porta que a aplicação vai usar
-# O Spring Boot vai escolher uma porta aleatória, mas é uma boa prática expor uma porta para testes
 EXPOSE 8080
 
 # Comando para iniciar a aplicação
