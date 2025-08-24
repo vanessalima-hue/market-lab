@@ -1,31 +1,33 @@
 # Configuração do API Gateway
 server:
-  port: 8080 # Porta principal do Gateway
+  port: ${PORT:0} # Porta dinâmica para compatibilidade com Render
 
 spring:
   application:
-    name: api-gateway # Nome do serviço para registro no Eureka
+    name: api-gateway # Nome do serviço no Eureka
 
   cloud:
     gateway:
       discovery:
         locator:
-          # Permite roteamento automático usando o nome do serviço (ex: lb://product-service)
           enabled: true
+          lower-case-service-id: true # garante que os nomes dos serviços sejam minúsculos
       routes:
         - id: product-service
-          # Roteia para o serviço de produto através do balanceador de carga do Eureka
           uri: lb://product-service
           predicates:
-            - Path=/products/** # Rotas que começam com /products
+            - Path=/products/**
+
         - id: order-service
-          # Roteia para o serviço de pedido através do balanceador de carga do Eureka
           uri: lb://order-service
           predicates:
-            - Path=/orders/** # Rotas que começam com /orders
-    
+            - Path=/orders/**
+
 eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
   client:
     serviceUrl:
-      # Obtém a URL do Eureka da variável de ambiente definida no Render.yaml
       defaultZone: ${EUREKA_CLIENT_SERVICE_URL}
