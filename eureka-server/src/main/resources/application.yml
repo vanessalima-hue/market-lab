@@ -4,12 +4,12 @@ server:
 
 eureka:
   instance:
-    # O nome do host da instância no Render
-    hostname: market-lab-eureka
+    # Define o hostname dinamicamente a partir da URL configurada no Render
+    hostname: ${EUREKA_INSTANCE_HOST:localhost}
   client:
     # O servidor Eureka não precisa se registrar nele mesmo
     registerWithEureka: false
     # Não precisa buscar um registro, pois ele é o servidor
     fetchRegistry: false
     serviceUrl:
-      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+      # Usa variável de ambiente no Render (EUREKA_CLIENT_SERVICE_URL) ou fallback_
