@@ -8,6 +8,7 @@ services:
     rootDir: eureka-server
     plan: free
     autoDeploy: true
+    ports: [{ port: 8761, name: eureka-port }]
 
   # API Gateway
   - type: web
@@ -16,6 +17,10 @@ services:
     rootDir: api-gateway
     plan: free
     autoDeploy: true
+    envVars:
+      - key: EUREKA_CLIENT_SERVICE_URL
+        value: http://market-lab-eureka:8761/eureka
+    ports: [{ port: 8080, name: http }]
 
   # Serviço de Catálogo de Produtos
   - type: web
@@ -24,6 +29,11 @@ services:
     rootDir: product-service
     plan: free
     autoDeploy: true
+    envVars:
+      - key: EUREKA_CLIENT_SERVICE_URL
+        value: http://market-lab-eureka:8761/eureka
+      - key: CACHE_TYPE
+        value: simple
 
   # Serviço de Pedidos
   - type: web
@@ -32,3 +42,6 @@ services:
     rootDir: order-service
     plan: free
     autoDeploy: true
+    envVars:
+      - key: EUREKA_CLIENT_SERVICE_URL
+        value: http://market-lab-eureka:8761/eureka
