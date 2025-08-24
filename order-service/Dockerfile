@@ -2,7 +2,11 @@
 # Estágio de build
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
+
+# Copia todo o projeto para o contêiner para que o Maven possa encontrar o POM pai
 COPY . .
+
+# Compila apenas o módulo `order-service` e suas dependências
 RUN mvn -pl order-service -am clean package -DskipTests
 
 # Estágio de execução
