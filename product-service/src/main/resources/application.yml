@@ -1,22 +1,13 @@
+# Configuração do Serviço de Produtos
 server:
-  port: 8081
+  port: 0 # Atribui uma porta aleatória, o Eureka se encarregará de gerenciá-la.
+
 spring:
   application:
-    name: product-service
-  datasource:
-    url: jdbc:h2:mem:products;MODE=PostgreSQL;DB_CLOSE_DELAY=-1
-    driverClassName: org.h2.Driver
-    username: sa
-    password: sa
-  sql:
-    init:
-      mode: always
-  cache:
-    type: ${CACHE_TYPE:redis}  # se não houver REDIS_URL cai para erro → ajuste via env; ou use caffeine local: set CACHE_TYPE=simple
+    name: product-service # Nome do serviço para registro no Eureka
+
 eureka:
   client:
-    service-url:
-      defaultZone: ${EUREKA_SERVER_URL:http://eureka-server:8761/eureka}
-# Redis opcional
-redis:
-  url: ${REDIS_URL:}
+    serviceUrl:
+      # Obtém a URL do Eureka da variável de ambiente definida no Render.yaml
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL}
