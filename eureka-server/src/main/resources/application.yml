@@ -12,4 +12,4 @@ eureka:
     # Não precisa buscar um registro, pois ele é o servidor
     fetchRegistry: false
     serviceUrl:
-      # Usa variável de ambiente no Render (EUREKA_CLIENT_SERVICE_URL) ou fallback_
+      defaultZone: http://localhost:8761/eureka/
