@@ -1,0 +1,15 @@
+# Configuração do Servidor Eureka
+server:
+  port: 8761 # Porta padrão do Eureka
+
+eureka:
+  instance:
+    # O nome do host da instância no Render
+    hostname: market-lab-eureka
+  client:
+    # O servidor Eureka não precisa se registrar nele mesmo
+    registerWithEureka: false
+    # Não precisa buscar um registro, pois ele é o servidor
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
