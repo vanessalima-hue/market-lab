@@ -14,16 +14,14 @@ spring:
         - id: product-service
           uri: lb://product-service
           predicates:
-            - Path=/products/**
+            - Path=/api/products/**
         - id: order-service
           uri: lb://order-service
           predicates:
-            - Path=/orders/**
+            - Path=/api/orders/**
 
 eureka:
   instance:
-    # A linha abaixo foi removida.
-    # prefer-ip-address: true
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
   client:
