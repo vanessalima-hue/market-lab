@@ -1,15 +1,14 @@
- server:
-  port: ${PORT:0} # Porta dinâmica no Render, 0 localmente
+server:
+  port: ${PORT:0} # Usa a porta do Render, ou aleatória localmente
 
 spring:
   application:
-    name: product-service
+    name: order-service
 
 eureka:
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
-
   client:
     serviceUrl:
       defaultZone: ${EUREKA_CLIENT_SERVICE_URL:https://market-lab-eureka.onrender.com/eureka}
