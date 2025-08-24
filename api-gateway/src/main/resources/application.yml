@@ -1,23 +1,20 @@
-# Configuração do API Gateway
 server:
-  port: ${PORT:0} # Porta dinâmica para compatibilidade com Render
+  port: ${PORT:8080} # Render injeta PORT, localmente usa 8080
 
 spring:
   application:
-    name: api-gateway # Nome do serviço no Eureka
+    name: api-gateway
 
   cloud:
     gateway:
       discovery:
         locator:
           enabled: true
-          lower-case-service-id: true # garante que os nomes dos serviços sejam minúsculos
       routes:
         - id: product-service
           uri: lb://product-service
           predicates:
             - Path=/products/**
-
         - id: order-service
           uri: lb://order-service
           predicates:
@@ -30,4 +27,4 @@ eureka:
 
   client:
     serviceUrl:
-      defaultZone: ${EUREKA_CLIENT_SERVICE_URL}
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL:https://market-lab-eureka.onrender.com/eureka}
