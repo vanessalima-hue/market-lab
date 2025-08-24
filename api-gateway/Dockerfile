@@ -10,4 +10,4 @@ FROM eclipse-temurin:17-jre-focal
 WORKDIR /app
 COPY --from=build /app/target/api-gateway-*.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app/app.jar"]
+ENTRYPOINT ["java", "-Dserver.port=${PORT}", "-jar", "/app/app.jar"]
