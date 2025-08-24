@@ -1,29 +1,31 @@
+# Configuração do API Gateway
 server:
-  port: 8080
+  port: 8080 # Porta principal do Gateway
 
 spring:
   application:
-    name: api-gateway
+    name: api-gateway # Nome do serviço para registro no Eureka
+
   cloud:
     gateway:
       discovery:
         locator:
+          # Permite roteamento automático usando o nome do serviço (ex: lb://product-service)
           enabled: true
       routes:
         - id: product-service
+          # Roteia para o serviço de produto através do balanceador de carga do Eureka
           uri: lb://product-service
           predicates:
-            - Path=/products/**
+            - Path=/products/** # Rotas que começam com /products
         - id: order-service
+          # Roteia para o serviço de pedido através do balanceador de carga do Eureka
           uri: lb://order-service
           predicates:
-            - Path=/orders/**
+            - Path=/orders/** # Rotas que começam com /orders
+    
 eureka:
   client:
-    service-url:
-      defaultZone: ${EUREKA_CLIENT_SERVICE_URL:http://market-lab-eureka:8761/eureka}
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,metrics,env
+    serviceUrl:
+      # Obtém a URL do Eureka da variável de ambiente definida no Render.yaml
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL}
