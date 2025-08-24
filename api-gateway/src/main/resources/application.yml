@@ -8,7 +8,7 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true  # Roteia automaticamente para serviços registrados no Eureka (lb://NOME-SERVICO)
+          enabled: true
       routes:
         - id: product-service
           uri: lb://product-service
@@ -21,7 +21,7 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: ${EUREKA_SERVER_URL:http://eureka-server:8761/eureka}
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL:http://market-lab-eureka:8761/eureka}
 management:
   endpoints:
     web:
