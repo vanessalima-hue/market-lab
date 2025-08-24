@@ -1,5 +1,5 @@
 # market-lab/render.yaml
-# Este blueprint define todos os serviços que serão implantados no Render.
+# Este blueprint define todos os serviços que seriam implantados no Render.
 services:
   # Servidor Eureka (Service Discovery)
   - type: web
@@ -48,4 +48,4 @@ services:
     autoDeploy: true
     envVars:
       - key: EUREKA_CLIENT_SERVICE_URL
-        value: http://market-lab-eureka:8761/eurek
+        value: http://market-lab-eureka:8761/eureka
