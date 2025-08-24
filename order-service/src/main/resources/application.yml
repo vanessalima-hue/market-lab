@@ -1,12 +1,18 @@
 # Configuração do Serviço de Pedidos
 server:
-  port: 0
+  port: 0 # Porta aleatória para permitir múltiplas instâncias
 
 spring:
   application:
     name: order-service # Nome do serviço para registro no Eureka
 
 eureka:
+  instance:
+    # Usa o IP ao invés do hostname (mais estável em Docker/Render)
+    prefer-ip-address: true
+    # Gera um ID único para cada instância (evita conflitos quando várias instâncias sobem)
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
   client:
     serviceUrl:
       # Obtém a URL do Eureka da variável de ambiente definida no Render.yaml
