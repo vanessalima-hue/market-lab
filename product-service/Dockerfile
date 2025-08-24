@@ -1,13 +1,23 @@
 # product-service/Dockerfile
+
 # Estágio de build
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
-COPY . .
-RUN mvn -pl product-service -am clean package -DskipTests
+
+# Copia os arquivos necessários
+COPY pom.xml .
+COPY src ./src
+
+# Compila o projeto
+RUN mvn clean package -DskipTests
 
 # Estágio de execução
 FROM eclipse-temurin:17-jre-focal
 WORKDIR /app
-COPY --from=build /app/product-service/target/product-service-*.jar ./app.jar
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app/app.jar"]
+
+# Copia o jar gerado no build
+COPY --from=build /app/target/*.jar app.jar
+
+# Product Service expõe a porta 8081
+EXPOSE 8081
+ENTRYPOINT ["java","-jar","app.jar"]
