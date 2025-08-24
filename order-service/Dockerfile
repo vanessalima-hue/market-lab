@@ -1,13 +1,23 @@
 # order-service/Dockerfile
+
 # Estágio de build
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
-COPY . .
-RUN mvn -pl order-service -am clean package -DskipTests
+
+# Copia os arquivos necessários
+COPY pom.xml .
+COPY src ./src
+
+# Compila o projeto
+RUN mvn clean package -DskipTests
 
 # Estágio de execução
 FROM eclipse-temurin:17-jre-focal
 WORKDIR /app
-COPY --from=build /app/order-service/target/order-service-*.jar ./app.jar
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app/app.jar"]
+
+# Copia o jar gerado no build
+COPY --from=build /app/target/*.jar app.jar
+
+# Order Service expõe a porta 8082 (diferente do Gateway)
+EXPOSE 8082
+ENTRYPOINT ["java","-jar","app.jar"]
