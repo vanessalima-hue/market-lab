@@ -1,7 +1,6 @@
 # market-lab/render.yaml
 # Este blueprint define todos os serviços que serão implantados no Render.
 services:
-  # Servidor Eureka (Service Discovery)
   - type: web
     name: market-lab-eureka
     env: docker
@@ -9,8 +8,7 @@ services:
     plan: free
     autoDeploy: true
     ports: [{ port: 8761, name: eureka-port }]
-
-  # API Gateway
+    
   - type: web
     name: market-lab-gateway
     env: docker
@@ -21,8 +19,7 @@ services:
       - key: EUREKA_CLIENT_SERVICE_URL
         value: http://market-lab-eureka:8761/eureka
     ports: [{ port: 8080, name: http }]
-
-  # Serviço de Catálogo de Produtos
+    
   - type: web
     name: market-lab-product
     env: docker
@@ -34,8 +31,7 @@ services:
         value: http://market-lab-eureka:8761/eureka
       - key: CACHE_TYPE
         value: simple
-
-  # Serviço de Pedidos
+        
   - type: web
     name: market-lab-order
     env: docker
