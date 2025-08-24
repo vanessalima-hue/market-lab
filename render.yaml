@@ -1,50 +1,59 @@
-# Este blueprint agora confia que o Dockerfile lida com a compilação.
+# market-lab/render.yaml
+# Este blueprint define todos os serviços que seriam implantados no Render.
+# As variáveis de ambiente agora devem ser configuradas manualmente no Render.
 services:
+  # Servidor Eureka (Service Discovery)
   - type: web
     name: market-lab-eureka
     env: docker
     rootDir: eureka-server
     plan: free
     autoDeploy: true
-    # Remove o buildCommand, pois o Dockerfile se encarrega disso
+    # buildCommand foi removido. Agora o Dockerfile se encarrega da compilação.
     ports:
       - port: 8761
         name: eureka-port
 
+  # API Gateway
   - type: web
     name: market-lab-gateway
     env: docker
     rootDir: api-gateway
     plan: free
     autoDeploy: true
-    # Remove o buildCommand
-    envVars:
-      - key: EUREKA_CLIENT_SERVICE_URL
-        value: http://market-lab-eureka:8761/eureka
+    # buildCommand foi removido.
+    # As variáveis de ambiente devem ser configuradas no Render.
+    # envVars:
+    #   - key: EUREKA_CLIENT_SERVICE_URL
+    #     value: http://market-lab-eureka:8761/eureka
     ports:
       - port: 8080
         name: http
 
+  # Serviço de Catálogo de Produtos
   - type: web
     name: market-lab-product
     env: docker
     rootDir: product-service
     plan: free
     autoDeploy: true
-    # Remove o buildCommand
-    envVars:
-      - key: EUREKA_CLIENT_SERVICE_URL
-        value: http://market-lab-eureka:8761/eureka
-      - key: CACHE_TYPE
-        value: simple
+    # buildCommand foi removido.
+    # As variáveis de ambiente devem ser configuradas no Render.
+    # envVars:
+    #   - key: EUREKA_CLIENT_SERVICE_URL
+    #     value: http://market-lab-eureka:8761/eureka
+    #   - key: CACHE_TYPE
+    #     value: simple
 
+  # Serviço de Pedidos
   - type: web
     name: market-lab-order
     env: docker
     rootDir: order-service
     plan: free
     autoDeploy: true
-    # Remove o buildCommand
-    envVars:
-      - key: EUREKA_CLIENT_SERVICE_URL
-        value: http://market-lab-eureka:8761/eureka
+    # buildCommand foi removido.
+    # As variáveis de ambiente devem ser configuradas no Render.
+    # envVars:
+    #   - key: EUREKA_CLIENT_SERVICE_URL
+    #     value: http://market-lab-eureka:8761/eureka
