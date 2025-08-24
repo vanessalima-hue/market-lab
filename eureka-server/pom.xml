@@ -8,7 +8,7 @@
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>3.3.2</version>
-    <relativePath/> <!-- Usa parent oficial -->
+    <relativePath/>
   </parent>
 
   <groupId>com.marketlab</groupId>
@@ -22,9 +22,17 @@
   </properties>
 
   <dependencies>
+    <!-- Eureka Server -->
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+    </dependency>
+
+    <!-- Testes -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
@@ -48,5 +56,4 @@
       </plugin>
     </plugins>
   </build>
-
 </project>
