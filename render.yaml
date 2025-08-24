@@ -1,55 +1,55 @@
 # Este blueprint define todos os serviços que serão implantados no Render.
+# O buildCommand agora é executado a partir do diretório raiz do repositório.
 services:
-  # Servidor Eureka (Service Discovery)
   - type: web
     name: market-lab-eureka
     env: docker
     rootDir: eureka-server
     plan: free
     autoDeploy: true
-    # Eureka Server precisa de uma porta fixa para que os clientes possam se conectar.
-    # Esta porta deve ser exposta no Dockerfile.
+    # Comando de build corrigido para ser executado a partir da raiz.
+    buildCommand: 'cd ../ && mvn clean install -pl eureka-server -am -DskipTests'
     ports:
       - port: 8761
         name: eureka-port
 
-  # API Gateway
   - type: web
     name: market-lab-gateway
     env: docker
     rootDir: api-gateway
     plan: free
     autoDeploy: true
+    # Comando de build corrigido para ser executado a partir da raiz.
+    buildCommand: 'cd ../ && mvn clean install -pl api-gateway -am -DskipTests'
     envVars:
-      # A URL para o Eureka deve ser o nome interno do serviço no Render.
       - key: EUREKA_CLIENT_SERVICE_URL
         value: http://market-lab-eureka:8761/eureka
     ports:
       - port: 8080
         name: http
 
-  # Serviço de Catálogo de Produtos
   - type: web
     name: market-lab-product
     env: docker
     rootDir: product-service
     plan: free
     autoDeploy: true
+    # Comando de build corrigido para ser executado a partir da raiz.
+    buildCommand: 'cd ../ && mvn clean install -pl product-service -am -DskipTests'
     envVars:
-      # A URL para o Eureka deve ser o nome interno do serviço no Render.
       - key: EUREKA_CLIENT_SERVICE_URL
         value: http://market-lab-eureka:8761/eureka
       - key: CACHE_TYPE
         value: simple
 
-  # Serviço de Pedidos
   - type: web
     name: market-lab-order
     env: docker
     rootDir: order-service
     plan: free
     autoDeploy: true
+    # Comando de build corrigido para ser executado a partir da raiz.
+    buildCommand: 'cd ../ && mvn clean install -pl order-service -am -DskipTests'
     envVars:
-      # A URL para o Eureka deve ser o nome interno do serviço no Render.
       - key: EUREKA_CLIENT_SERVICE_URL
         value: http://market-lab-eureka:8761/eureka
