@@ -1,13 +1,15 @@
 # Configuração do Serviço de Produtos
 server:
-  port: 0 # Atribui uma porta aleatória, o Eureka se encarregará de gerenciá-la.
+  port: 0 # Porta aleatória
 
 spring:
   application:
-    name: product-service # Nome do serviço para registro no Eureka
+    name: product-service # Nome usado no Eureka e no API Gateway
 
 eureka:
+  instance:
+    prefer-ip-address: true # Garante que registre com IP em vez de hostname
   client:
     serviceUrl:
-      # Obtém a URL do Eureka da variável de ambiente definida no Render.yaml
       defaultZone: ${EUREKA_CLIENT_SERVICE_URL}
+      
