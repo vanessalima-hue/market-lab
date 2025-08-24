@@ -1,6 +1,6 @@
 # Configuração do Serviço de Pedidos
 server:
-  port: 0 # Porta aleatória para permitir múltiplas instâncias
+  port: ${PORT:0} # Usa a porta definida pelo Render ou gera uma aleatória localmente
 
 spring:
   application:
@@ -10,7 +10,7 @@ eureka:
   instance:
     # Usa o IP ao invés do hostname (mais estável em Docker/Render)
     prefer-ip-address: true
-    # Gera um ID único para cada instância (evita conflitos quando várias instâncias sobem)
+    # ID único para cada instância (evita conflitos quando várias instâncias sobem)
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
   client:
