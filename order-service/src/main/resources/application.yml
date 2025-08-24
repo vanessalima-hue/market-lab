@@ -1,19 +1,15 @@
-# Configuração do Serviço de Pedidos
 server:
-  port: ${PORT:0} # Usa a porta definida pelo Render ou gera uma aleatória localmente
+  port: ${PORT:0}
 
 spring:
   application:
-    name: order-service # Nome do serviço para registro no Eureka
+    name: order-service
 
 eureka:
   instance:
-    # Usa o IP ao invés do hostname (mais estável em Docker/Render)
     prefer-ip-address: true
-    # ID único para cada instância (evita conflitos quando várias instâncias sobem)
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
   client:
     serviceUrl:
-      # Obtém a URL do Eureka da variável de ambiente definida no Render.yaml
-      defaultZone: ${EUREKA_CLIENT_SERVICE_URL}
+      defaultZone: ${EUREKA_CLIENT_SERVICE_URL:https://market-lab-eureka.onrender.com/eureka}
