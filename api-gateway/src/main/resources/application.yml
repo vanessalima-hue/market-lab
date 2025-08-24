@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:8080} # Render injeta PORT, localmente usa 8080
+  port: ${PORT:8080} # Usa a porta do Render, ou 8080 para local
 
 spring:
   application:
@@ -22,7 +22,8 @@ spring:
 
 eureka:
   instance:
-    prefer-ip-address: true
+    # A linha abaixo foi removida.
+    # prefer-ip-address: true
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
   client:
