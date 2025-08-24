@@ -1,13 +1,13 @@
 server:
-  port: ${PORT:0} # Usa a porta do Render, ou aleatória localmente
+  port: ${PORT:8081} # Agora usa a porta do Render ou 8081 localmente
 
 spring:
   application:
     name: PRODUCT-SERVICE
 
 eureka:
+  # Removido: prefer-ip-address: true
   instance:
-    prefer-ip-address: true
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   client:
     serviceUrl:
